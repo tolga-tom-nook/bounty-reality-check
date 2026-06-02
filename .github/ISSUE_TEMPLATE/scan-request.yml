@@ -1,0 +1,42 @@
+name: Paid scan request
+about: Request a Bounty Reality Check quick/deep scan
+labels: [scan-request]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for requesting a Bounty Reality Check. Do not paste secrets, private keys, seed phrases, or non-public credentials.
+        Manual payment rails are listed on the landing page and in PAYMENT.md.
+  - type: input
+    id: listing_url
+    attributes:
+      label: Public bounty/listing URL
+      description: Paste the canonical public URL to scan.
+      placeholder: https://github.com/org/repo/issues/123
+    validations:
+      required: true
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Tier
+      options:
+        - $5 quick scan
+        - $25 deep scan
+        - $99 weekly shortlist
+    validations:
+      required: true
+  - type: dropdown
+    id: payment_rail
+    attributes:
+      label: Intended payment rail
+      options:
+        - Solana USDC
+        - EVM/BSC stablecoin
+        - USD-equivalent / ask first
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / context
+      description: Optional public context. Do not include secrets or private payment details.

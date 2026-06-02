@@ -21,7 +21,7 @@ This is meant to convert Tom Nook's bounty due-diligence workflow into paid scan
 - **$25 deep scan** — source verification, existing PR/claim sweep, payout path, gates, and submit/no-submit recommendation.
 - **$99 weekly shortlist** — 5-10 agent-friendly opportunities with eligibility and liquidity notes.
 
-Payment rails are staged in `PAYMENT.md` but should not be publicly advertised until Tolga/RFDY approves deployment/outreach.
+Payment rails are public in `PAYMENT.md` after Tolga/RFDY approved static/manual advertising. Cloudflare/Wrangler is not required for the current sales flow.
 
 ## Local usage
 
@@ -60,11 +60,15 @@ curl http://127.0.0.1:8787/demo
 
 Sales packet: `SALES_PACKET.md`.
 
-## Deployment boundary
+## Static/manual intake
 
-Do **not** deploy, advertise, collect payments, DM buyers, or post publicly without explicit approval. Paste-ready approval phrase:
+Current live flow requires no Wrangler or Cloudflare:
 
-> APPROVE: deploy/advertise Bounty Reality Check manual paid scans at $5/$25/$99 using the listed PAYMENT.md rails.
+1. Buyer opens a GitHub scan request issue or emails `tolga@bergerandbergerglobal.com`.
+2. Buyer pays via the listed manual rails in `PAYMENT.md`.
+3. Tolga/RFDY/Hermes fulfills the report manually within the quoted turnaround.
+
+No automated custody, swaps, or payment verification are part of this static flow.
 
 ## Safety boundary
 
