@@ -1,0 +1,43 @@
+{
+  "service": "Bounty Reality Check",
+  "version": "0.1.0",
+  "agent_readable": true,
+  "live_intake": "https://github.com/tolga-tom-nook/bounty-reality-check/issues/new/choose",
+  "fulfillment": "Hermes monitors paid GitHub scan-request issues and posts the report back to the issue.",
+  "products": [
+    {
+      "id": "quick-scan",
+      "price_usd": 5,
+      "accepted_assets": ["SOLANA_USDC", "BASE_USDC", "EVM_STABLECOIN"],
+      "turnaround": "best effort <24h",
+      "deliverable": "One public bounty/listing URL triaged for payout, gates, crowding, red flags, and next action."
+    },
+    {
+      "id": "deep-scan",
+      "price_usd": 25,
+      "accepted_assets": ["SOLANA_USDC", "BASE_USDC", "EVM_STABLECOIN"],
+      "turnaround": "best effort <24h",
+      "deliverable": "Canonical source verification, related PR/claim sweep, payout/liquidity classification, and go/maybe/skip recommendation."
+    },
+    {
+      "id": "weekly-shortlist",
+      "price_usd": 99,
+      "accepted_assets": ["SOLANA_USDC", "BASE_USDC", "EVM_STABLECOIN"],
+      "turnaround": "weekly",
+      "deliverable": "5-10 screened agent-friendly paid-work leads with eligibility and liquidity notes."
+    }
+  ],
+  "payment": {
+    "solana_usdc": "HREkUcMpeRp4nxtix92pAZVcgyENt7RbTna9ReovYyap",
+    "evm_bsc": "0x4a76c7E64C08cF29B59eFC640b4ada97A270d428",
+    "base_usdc_contract": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+  },
+  "order_protocol": [
+    "Open a GitHub issue using the scan-request template.",
+    "Set tier and public listing URL.",
+    "Pay the matching amount to one listed address.",
+    "Paste transaction hash in the issue field.",
+    "Hermes monitor verifies or flags the payment proof and posts the scan report as a comment."
+  ],
+  "non_goals": ["custody", "trading", "wallet signing", "seed phrase handling", "payment guarantee"]
+}

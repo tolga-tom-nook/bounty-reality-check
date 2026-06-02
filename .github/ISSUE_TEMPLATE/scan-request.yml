@@ -35,6 +35,14 @@ body:
         - USD-equivalent / ask first
     validations:
       required: true
+  - type: input
+    id: tx_hash
+    attributes:
+      label: Payment transaction hash
+      description: Paste the Solana/Base/EVM transaction hash after paying. Leave blank if asking a pre-payment question.
+      placeholder: 0x... or Solana signature
+    validations:
+      required: false
   - type: textarea
     id: notes
     attributes:

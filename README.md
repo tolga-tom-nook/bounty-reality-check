@@ -64,11 +64,14 @@ Sales packet: `SALES_PACKET.md`.
 
 Current live flow requires no Wrangler or Cloudflare:
 
-1. Buyer opens a GitHub scan request issue or emails `tolga@bergerandbergerglobal.com`.
-2. Buyer pays via the listed manual rails in `PAYMENT.md`.
-3. Tolga/RFDY/Hermes fulfills the report manually within the quoted turnaround.
+1. Buyer/agent opens a GitHub scan request issue.
+2. Buyer/agent pays via the listed rails in `PAYMENT.md`.
+3. Buyer/agent pastes the transaction hash in the issue.
+4. A local Hermes cron monitor runs `scripts/fulfill_scan_requests.py`, checks the issue, performs best-effort public-RPC payment proof verification, scans the listing, and posts the report back to the GitHub issue.
 
-No automated custody, swaps, or payment verification are part of this static flow.
+Machine-readable order instructions are published at `docs/.well-known/agent-pay.json` and served on GitHub Pages at `/.well-known/agent-pay.json`.
+
+No automated custody, swaps, wallet signing, or private-key handling are part of this flow.
 
 ## Safety boundary
 
