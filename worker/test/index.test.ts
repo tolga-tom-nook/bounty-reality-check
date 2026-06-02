@@ -48,4 +48,15 @@ describe('bounty reality check worker', () => {
     expect(body.buyer_targets[0].approval_text).toContain('APPROVE:');
     expect(body.fulfillment_checklist).toContain('Verify canonical URL and payout/currency.');
   });
+
+  it('serves approval-gated buyer leads with paste-ready messages', async () => {
+    const res = await worker.fetch(new Request('https://example.com/buyers'), {}, {} as ExecutionContext);
+    expect(res.status).toBe(200);
+    const body = await res.json() as any;
+    expect(body.boundary).toContain('Do not send autonomously');
+    expect(body.leads.length).toBe(3);
+    expect(body.leads[0].offer).toContain('$25');
+    expect(body.leads[0].approval_text).toContain('APPROVE:');
+    expect(body.leads[0].message).toContain('Fixed price');
+  });
 });

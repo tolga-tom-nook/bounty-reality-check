@@ -44,6 +44,15 @@ type Demo = {
   fulfillment_checklist: string[];
 };
 
+type BuyerLead = {
+  buyer: string;
+  channel: string;
+  why_now: string;
+  offer: string;
+  approval_text: string;
+  message: string;
+};
+
 const LIQUID = ['USDC', 'USDT', 'USD', 'ETH', 'SOL', 'BTC', 'XMR', 'DAI'];
 const NATIVE_HINTS = ['token', 'points', 'credits', 'airdrop', 'native', 'mrwk', 'reward token'];
 const RED_FLAG_TERMS = ['follow us', 'star this repo', 'like and retweet', 'airdrop farming', 'trading bot', 'gambling', 'casino', 'private key', 'seed phrase'];
@@ -134,6 +143,40 @@ function demo(): Demo {
       'Inspect existing PRs/claims/comments for duplicate or first-come risk.',
       'Classify gates/red flags and liquidity honestly.',
       'Return go/maybe/skip plus one next action within 24h.',
+    ],
+  };
+}
+
+function buyerLeads(): { generated_for: string; leads: BuyerLead[]; boundary: string } {
+  const subject = 'Paid bounty due-diligence scan: payout, gates, crowding, and submit/no-submit recommendation';
+  return {
+    generated_for: 'risk-on revenue sprint; exact outreach still approval-gated',
+    boundary: 'Do not send autonomously. These are paste-ready buyer/channel targets for one approved, non-spammy contact each.',
+    leads: [
+      {
+        buyer: 'Bounty platform operator with noisy public listings',
+        channel: 'Listed contact form or founder/operator email only',
+        why_now: 'They can buy $25 QA scans to reduce duplicate submissions, stale listings, and non-payable bounty noise.',
+        offer: '$25 USDC/USD-equivalent deep scan; $99 weekly shortlist upsell',
+        approval_text: 'APPROVE: send Bounty Reality Check proposal to one bounty platform operator contact at $25/deep scan.',
+        message: `${subject}\n\nI can provide a compact evidence-backed scan for one public bounty/listing: canonical source, payout/currency, open/current status, submission gates, related PR/claim crowding, liquidity risk, and go/maybe/skip recommendation. Fixed price: $25 per listing, delivered within 24h. No spam, no fake engagement, no trading advice, and no promise a bounty pays.`,
+      },
+      {
+        buyer: 'Crypto/devtool sponsor running paid GitHub issues',
+        channel: 'Sponsor repository issue comment or listed maintainer email after approval',
+        why_now: 'Sponsors with crowded paid issues need a neutral report of which submissions are complete, duplicate, or risky before awarding.',
+        offer: '$25 deep scan for one bounty issue; $5 quick crowding check',
+        approval_text: 'APPROVE: send sponsor-facing scan offer to <repo/listing URL> contact.',
+        message: `${subject}\n\nI can scan your bounty issue and return a short report on payout clarity, submission gates, existing PR/comment crowding, duplicate risk, and recommended award/review next steps. Fixed price: $25 for one deep scan or $5 for a quick crowding check.`,
+      },
+      {
+        buyer: 'Agent/operator trying to earn from GitHub-native bounties',
+        channel: 'Manual reply to an inbound request or approved direct contact only',
+        why_now: 'Operators lose hours on stale, gated, or already-taken bounties; a cheap preflight can save build time.',
+        offer: '$5 quick scan; $25 deep scan with submit/no-submit recommendation',
+        approval_text: 'APPROVE: offer one Bounty Reality Check scan to <operator/contact> using approved payment rail.',
+        message: 'Before you spend time building for a bounty, I can verify whether it is open, payable, crowded, gated, or likely stale. $5 quick scan or $25 deep scan, delivered within 24h with evidence links and one next action.',
+      },
     ],
   };
 }
@@ -254,6 +297,7 @@ export default {
     if (u.pathname === '/offer') return json(offer());
     if (u.pathname === '/proposal') return json(proposal());
     if (u.pathname === '/demo') return json(demo());
+    if (u.pathname === '/buyers') return json(buyerLeads());
 
     if (u.pathname === '/scan' && request.method === 'POST') {
       if (!authOk(request, env)) return json({ error: 'Unauthorized' }, 401);
@@ -278,6 +322,6 @@ export default {
       return json(makeReport(body.url, source.text, source.status, source.prCount, source.evidence, body.notes));
     }
 
-    return json({ error: 'Not found', routes: ['GET /health', 'GET /offer', 'GET /proposal', 'GET /demo', 'POST /scan'] }, 404);
+    return json({ error: 'Not found', routes: ['GET /health', 'GET /offer', 'GET /proposal', 'GET /demo', 'GET /buyers', 'POST /scan'] }, 404);
   },
 };

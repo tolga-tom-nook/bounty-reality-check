@@ -44,6 +44,7 @@ curl http://127.0.0.1:8787/demo
 ## Demo proof points
 - `/demo` returns a concrete sample report shape using a real public bounty URL while clearly saying it is not a payment guarantee.
 - `/demo` includes two buyer target classes and exact approval-gated outreach phrases.
+- `/buyers` returns three exact buyer/channel targets with paste-ready messages and one-step approval text.
 - `/scan` remains the fulfillment endpoint for paid/manual customer URLs.
 
 ## Approval gate

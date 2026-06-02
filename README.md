@@ -58,6 +58,12 @@ Buyer demo endpoint:
 curl http://127.0.0.1:8787/demo
 ```
 
+Approval-gated buyer leads endpoint:
+
+```bash
+curl http://127.0.0.1:8787/buyers
+```
+
 Sales packet: `SALES_PACKET.md`.
 
 ## Static/manual intake
