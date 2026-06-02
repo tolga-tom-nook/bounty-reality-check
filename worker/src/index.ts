@@ -44,6 +44,61 @@ type Demo = {
   fulfillment_checklist: string[];
 };
 
+
+type AgentPayManifest = {
+  service: string;
+  agent_readable: true;
+  order_url: string;
+  manifest_url: string;
+  products: Array<{ id: string; price_usd: number; method: string; input_schema: Record<string, unknown>; output_schema: string; pay_to: Record<string, string> }>;
+  payment_required: { status: 402; header: string; body_fields: string[] };
+};
+
+function paymentAddresses() {
+  return {
+    solana_usdc: 'HREkUcMpeRp4nxtix92pAZVcgyENt7RbTna9ReovYyap',
+    evm_bsc: '0x4a76c7E64C08cF29B59eFC640b4ada97A270d428',
+    base_usdc_contract: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+  };
+}
+
+function agentPayManifest(origin: string): AgentPayManifest {
+  const pay_to = paymentAddresses();
+  return {
+    service: 'Bounty Reality Check',
+    agent_readable: true,
+    order_url: 'https://github.com/tolga-tom-nook/bounty-reality-check/issues/new/choose',
+    manifest_url: `${origin}/agent-pay`,
+    products: [
+      { id: 'quick-scan', price_usd: 5, method: 'github_issue_payment_proof', input_schema: { listing_url: 'public URL', tx_hash: 'Solana/Base/EVM transaction hash', callback: 'GitHub issue URL or public callback URL' }, output_schema: 'Bounty scan report: payout, status, gates, crowding, risks, verdict, next action', pay_to },
+      { id: 'deep-scan', price_usd: 25, method: 'github_issue_payment_proof', input_schema: { listing_url: 'public URL', tx_hash: 'Solana/Base/EVM transaction hash', callback: 'GitHub issue URL or public callback URL' }, output_schema: 'Evidence-backed due diligence report with source verification and submit/no-submit recommendation', pay_to },
+      { id: 'weekly-shortlist', price_usd: 99, method: 'github_issue_payment_proof', input_schema: { constraints: 'preferred ecosystem/stack', tx_hash: 'Solana/Base/EVM transaction hash', callback: 'GitHub issue URL or public callback URL' }, output_schema: '5-10 screened agent-friendly paid-work leads', pay_to },
+    ],
+    payment_required: {
+      status: 402,
+      header: 'Payment-Required: Bounty Reality Check',
+      body_fields: ['error', 'products', 'pay_to', 'order_url', 'instructions'],
+    },
+  };
+}
+
+function paymentRequired(origin: string): Response {
+  const manifest = agentPayManifest(origin);
+  return json({
+    error: 'Payment required before fulfillment',
+    products: manifest.products.map(({ id, price_usd, method, output_schema }) => ({ id, price_usd, method, output_schema })),
+    pay_to: paymentAddresses(),
+    order_url: manifest.order_url,
+    manifest_url: manifest.manifest_url,
+    instructions: [
+      'Choose quick-scan, deep-scan, or weekly-shortlist.',
+      'Pay the listed USD-equivalent amount to Solana USDC or EVM/BSC stablecoin address.',
+      'Open a GitHub scan-request issue with the public listing URL, tier, payment rail, and tx hash.',
+      'Hermes verifies/flags payment proof and posts the report back to the issue.',
+    ],
+  }, 402);
+}
+
 type BuyerLead = {
   buyer: string;
   channel: string;
@@ -298,9 +353,13 @@ export default {
     if (u.pathname === '/proposal') return json(proposal());
     if (u.pathname === '/demo') return json(demo());
     if (u.pathname === '/buyers') return json(buyerLeads());
+    if (u.pathname === '/agent-pay') return json(agentPayManifest(u.origin));
+    if (u.pathname === '/openapi.json') return json({ openapi: '3.1.0', info: { title: 'Bounty Reality Check', version: '0.1.0' }, paths: { '/agent-pay': { get: { summary: 'Machine-readable paid order manifest' } }, '/scan': { post: { summary: 'Paid scan endpoint. In production, call after payment proof/API entitlement.' } } } });
+
+    if (u.pathname === '/scan' && request.method === 'GET') return paymentRequired(u.origin);
 
     if (u.pathname === '/scan' && request.method === 'POST') {
-      if (!authOk(request, env)) return json({ error: 'Unauthorized' }, 401);
+      if (!authOk(request, env)) return paymentRequired(u.origin);
 
       let body: ScanRequest;
       try {
@@ -322,6 +381,6 @@ export default {
       return json(makeReport(body.url, source.text, source.status, source.prCount, source.evidence, body.notes));
     }
 
-    return json({ error: 'Not found', routes: ['GET /health', 'GET /offer', 'GET /proposal', 'GET /demo', 'GET /buyers', 'POST /scan'] }, 404);
+    return json({ error: 'Not found', routes: ['GET /health', 'GET /offer', 'GET /proposal', 'GET /demo', 'GET /buyers', 'GET /agent-pay', 'GET /openapi.json', 'GET /scan', 'POST /scan'] }, 404);
   },
 };

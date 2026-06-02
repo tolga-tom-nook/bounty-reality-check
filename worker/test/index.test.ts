@@ -59,4 +59,23 @@ describe('bounty reality check worker', () => {
     expect(body.leads[0].approval_text).toContain('APPROVE:');
     expect(body.leads[0].message).toContain('Fixed price');
   });
+
+  it('serves an agent-pay manifest for paying agents', async () => {
+    const res = await worker.fetch(new Request('https://example.com/agent-pay'), {}, {} as ExecutionContext);
+    expect(res.status).toBe(200);
+    const body = await res.json() as any;
+    expect(body.agent_readable).toBe(true);
+    expect(body.products.map((p: any) => p.price_usd)).toEqual([5, 25, 99]);
+    expect(body.products[0].pay_to.solana_usdc).toContain('HREk');
+  });
+
+  it('returns 402-style payment instructions for GET /scan', async () => {
+    const res = await worker.fetch(new Request('https://example.com/scan'), {}, {} as ExecutionContext);
+    expect(res.status).toBe(402);
+    const body = await res.json() as any;
+    expect(body.error).toContain('Payment required');
+    expect(body.order_url).toContain('github.com');
+    expect(body.pay_to.evm_bsc).toContain('0x4a76');
+  });
+
 });

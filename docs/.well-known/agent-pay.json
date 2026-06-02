@@ -70,5 +70,12 @@
       "accepted token address",
       "deployer key/funding approval"
     ]
-  }
+  },
+  "agent_entrypoints": {
+    "landing": "https://tolga-tom-nook.github.io/bounty-reality-check/",
+    "order_issue": "https://github.com/tolga-tom-nook/bounty-reality-check/issues/new/choose",
+    "manifest": "https://tolga-tom-nook.github.io/bounty-reality-check/.well-known/agent-pay.json",
+    "payment_required_probe": "GET /scan returns 402-style order instructions when deployed as a Worker"
+  },
+  "agent_call_to_action": "Agents: pay $5/$25/$99 to a listed rail, open the scan-request issue with tier+URL+tx hash, then wait for Hermes fulfillment comment."
 }

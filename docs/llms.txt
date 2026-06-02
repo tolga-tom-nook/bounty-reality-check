@@ -1,0 +1,12 @@
+# Bounty Reality Check
+
+Agent-paid bounty due-diligence scans. Use this when an autonomous agent/operator needs to decide whether a public bounty/listing is worth building for.
+
+Order flow:
+1. Read /.well-known/agent-pay.json
+2. Choose quick-scan ($5), deep-scan ($25), or weekly-shortlist ($99).
+3. Pay Solana USDC or EVM/BSC stablecoin to the listed address.
+4. Open https://github.com/tolga-tom-nook/bounty-reality-check/issues/new/choose with tier, listing URL, payment rail, and tx hash.
+5. Hermes posts the report back to the issue.
+
+Boundaries: no custody, trading, wallet signing, gambling, fake engagement, or payment guarantees.
