@@ -45,8 +45,14 @@
   </section>
 
   <section class="card">
+    <h2>Agent-native onchain trigger</h2>
+    <p>HyperEVM payment-trigger architecture is now scaffolded: an agent can pay an EVM contract, the contract emits <code>ScanPaid</code>, and a Hermes watcher triggers fulfillment. Deployment is approval-gated because it needs RPC/token/treasury/deployer setup.</p>
+    <p><a href="HYPEREVM-E2E.md">HyperEVM E2E design</a> · <a href=".well-known/agent-pay.json">agent-pay manifest</a></p>
+  </section>
+
+  <section class="card">
     <h2>Payment rails</h2>
-    <p>Manual paid scans only. No custody, trading, swaps, seed phrases, or payment guarantees.</p>
+    <p>Manual paid scans now; onchain trigger ready for deployment. No custody, trading, swaps, seed phrases, or payment guarantees.</p>
     <ul>
       <li>Solana USDC: <code>HREkUcMpeRp4nxtix92pAZVcgyENt7RbTna9ReovYyap</code></li>
       <li>EVM/BSC stablecoin: <code>0x4a76c7E64C08cF29B59eFC640b4ada97A270d428</code></li>

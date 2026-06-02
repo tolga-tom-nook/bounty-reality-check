@@ -71,6 +71,8 @@ Current live flow requires no Wrangler or Cloudflare:
 
 Machine-readable order instructions are published at `docs/.well-known/agent-pay.json` and served on GitHub Pages at `/.well-known/agent-pay.json`.
 
+HyperEVM E2E trigger architecture is scaffolded in `contracts/HyperEVMScanPay.sol` and `scripts/hyperevm_event_watcher.py`: agent pays contract -> contract emits `ScanPaid` -> Hermes watcher triggers fulfillment. It is not deployed until RPC/token/treasury/deployer approval exists.
+
 No automated custody, swaps, wallet signing, or private-key handling are part of this flow.
 
 ## Safety boundary

@@ -8,21 +8,33 @@
     {
       "id": "quick-scan",
       "price_usd": 5,
-      "accepted_assets": ["SOLANA_USDC", "BASE_USDC", "EVM_STABLECOIN"],
+      "accepted_assets": [
+        "SOLANA_USDC",
+        "BASE_USDC",
+        "EVM_STABLECOIN"
+      ],
       "turnaround": "best effort <24h",
       "deliverable": "One public bounty/listing URL triaged for payout, gates, crowding, red flags, and next action."
     },
     {
       "id": "deep-scan",
       "price_usd": 25,
-      "accepted_assets": ["SOLANA_USDC", "BASE_USDC", "EVM_STABLECOIN"],
+      "accepted_assets": [
+        "SOLANA_USDC",
+        "BASE_USDC",
+        "EVM_STABLECOIN"
+      ],
       "turnaround": "best effort <24h",
       "deliverable": "Canonical source verification, related PR/claim sweep, payout/liquidity classification, and go/maybe/skip recommendation."
     },
     {
       "id": "weekly-shortlist",
       "price_usd": 99,
-      "accepted_assets": ["SOLANA_USDC", "BASE_USDC", "EVM_STABLECOIN"],
+      "accepted_assets": [
+        "SOLANA_USDC",
+        "BASE_USDC",
+        "EVM_STABLECOIN"
+      ],
       "turnaround": "weekly",
       "deliverable": "5-10 screened agent-friendly paid-work leads with eligibility and liquidity notes."
     }
@@ -39,5 +51,24 @@
     "Paste transaction hash in the issue field.",
     "Hermes monitor verifies or flags the payment proof and posts the scan report as a comment."
   ],
-  "non_goals": ["custody", "trading", "wallet signing", "seed phrase handling", "payment guarantee"]
+  "non_goals": [
+    "custody",
+    "trading",
+    "wallet signing",
+    "seed phrase handling",
+    "payment guarantee"
+  ],
+  "onchain_trigger": {
+    "status": "ready_not_deployed",
+    "chain": "HyperEVM",
+    "contract_source": "contracts/HyperEVMScanPay.sol",
+    "event": "ScanPaid(bytes32 indexed orderId,address indexed payer,address indexed token,uint256 amount,Tier tier,string listingUrl,string callbackUrl)",
+    "watcher": "scripts/hyperevm_event_watcher.py",
+    "deployment_required": [
+      "EVM_RPC_URL",
+      "treasury address",
+      "accepted token address",
+      "deployer key/funding approval"
+    ]
+  }
 }
